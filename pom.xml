@@ -80,7 +80,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/main/resources/testNG.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testNG.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>

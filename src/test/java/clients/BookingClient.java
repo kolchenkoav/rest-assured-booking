@@ -28,4 +28,22 @@ public class BookingClient {
                 .spec(ResponseSpecs.OK_JSON)
                 .log().body();
     }
+
+    /**
+     * Возвращает бронирование по id: GET /booking/{id}.
+     * Тело ответа — объект брони без обёртки bookingid/booking,
+     * поэтому в тесте он читается целиком: .extract().as(BookDTO.class).
+     * Общие проверки (200 + JSON) — здесь через ResponseSpecs.OK_JSON.
+     */
+    public ValidatableResponse getBooking(int bookingId) {
+        System.out.println("\nPOSITIVE GET\n");
+        return given()
+                .spec(RequestSpecs.BASE_SPEC)
+                .log().uri()
+                .when()
+                .get("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.OK_JSON)
+                .log().body();
+    }
 }

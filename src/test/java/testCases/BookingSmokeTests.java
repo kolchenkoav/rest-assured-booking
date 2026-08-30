@@ -12,7 +12,7 @@ public class BookingSmokeTests extends BaseTest {
 
     private final BookingClient bookingClient = new BookingClient();
 
-    @Test
+    @Test(description = "The test include checking creation, get, update and delete booking ")
     public void smokeTestFullLifeCycle() {
         // --- POST: создаём бронирование ---
         BookDTO expectedBooking = TestDataGeneration.fullBooking();
@@ -27,6 +27,13 @@ public class BookingSmokeTests extends BaseTest {
         Assert.assertEquals(actualBooking, expectedBooking,
                 "Тело созданной брони должно совпадать с телом запроса");
 
-        // --- Далее: GET / PUT / DELETE по bookingId ---
+        // --- GET: читаем созданное бронирование ---
+        ValidatableResponse getResponse = bookingClient.getBooking(bookingId);
+        BookDTO fetchedBooking = getResponse.extract().as(BookDTO.class);
+
+        Assert.assertEquals(fetchedBooking, expectedBooking,
+                "GET /booking/{id} должен вернуть созданную бронь без изменений");
+
+        // --- Далее: PUT / DELETE по bookingId ---
     }
 }
