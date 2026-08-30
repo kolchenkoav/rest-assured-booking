@@ -3,7 +3,7 @@
 <suite name="RahulShetty Test Suite">
     <test name="Smoke Place Tests">
         <classes>
-            <class name="testCases.PlaceSmokeTests">
+            <class name="testCases.BookingSmokeTests">
                 <methods>
                     <include name="smokeTestFullLifeCycle"/>
                 </methods>
