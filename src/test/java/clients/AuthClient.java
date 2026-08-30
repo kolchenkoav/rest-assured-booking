@@ -1,7 +1,8 @@
 package clients;
 
 import config.BookingConfig;
-import io.restassured.http.ContentType;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import java.util.Map;
 
@@ -17,8 +18,7 @@ public class AuthClient {
      */
     public static String createToken() {
         return given()
-                .baseUri(BookingConfig.BASE_URI)
-                .contentType(ContentType.JSON)
+                .spec(RequestSpecs.BASE_SPEC)
                 .body(Map.of(
                         "username", BookingConfig.USERNAME,
                         "password", BookingConfig.PASSWORD
@@ -26,7 +26,7 @@ public class AuthClient {
                 .when()
                 .post("/auth")
                 .then()
-                .statusCode(200)
+                .spec(ResponseSpecs.OK_JSON)
                 .extract()
                 .jsonPath()
                 .getString("token");
