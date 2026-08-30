@@ -4,6 +4,7 @@ import clients.BookingClient;
 import dto.BookDTO;
 import dto.PatchBookingDTO;
 import io.restassured.response.ValidatableResponse;
+import listeners.RunTestAgain;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.BaseTest;
@@ -13,6 +14,8 @@ public class BookingSmokeTests extends BaseTest {
 
     private final BookingClient bookingClient = new BookingClient();
 
+//    @Test(description = "The test include checking creation, get, update, partial update and delete booking ",
+//            retryAnalyzer = RunTestAgain.class)
     @Test(description = "The test include checking creation, get, update, partial update and delete booking ")
     public void smokeTestFullLifeCycle() {
         // --- POST: создаём бронирование ---

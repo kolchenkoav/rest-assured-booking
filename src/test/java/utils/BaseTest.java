@@ -1,6 +1,7 @@
 package utils;
 
 import clients.AuthClient;
+import config.AppConfig;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -28,6 +29,7 @@ public class BaseTest {
     public void methodSetUp(Method method) {
         System.out.println("Starting test: " + method.getName());
         System.out.println("Method Set Up");
+        System.out.println("Running test on profile: " + AppConfig.getProfile());
     }
 
     @AfterMethod
