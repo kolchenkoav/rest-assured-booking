@@ -4,14 +4,36 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.ResponseSpecification;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 public class ResponseSpecs {
 
     /**
-     * 200 + JSON: GET /booking, GET /booking/{id}, POST /booking, PUT/PATCH /booking/{id}, POST /auth.
+     * 200 + JSON + схема токена: POST /auth ({"token": "..."}).
      */
-    public static final ResponseSpecification OK_JSON = new ResponseSpecBuilder()
+    public static final ResponseSpecification OK_TOKEN_JSON = new ResponseSpecBuilder()
             .expectStatusCode(200)
             .expectContentType(ContentType.JSON)
+            .expectBody(matchesJsonSchemaInClasspath("schemas/token.schema.json"))
+            .build();
+
+    /**
+     * 200 + JSON + схема плоской брони: GET / PUT / PATCH /booking/{id}.
+     * additionalneeds в схеме не обязателен (по документации API).
+     */
+    public static final ResponseSpecification OK_BOOKING_JSON = new ResponseSpecBuilder()
+            .expectStatusCode(200)
+            .expectContentType(ContentType.JSON)
+            .expectBody(matchesJsonSchemaInClasspath("schemas/booking.schema.json"))
+            .build();
+
+    /**
+     * 200 + JSON + схема обёртки: POST /booking ({"bookingid": ..., "booking": {...}}).
+     */
+    public static final ResponseSpecification OK_CREATED_BOOKING_JSON = new ResponseSpecBuilder()
+            .expectStatusCode(200)
+            .expectContentType(ContentType.JSON)
+            .expectBody(matchesJsonSchemaInClasspath("schemas/created-booking.schema.json"))
             .build();
 
     /**

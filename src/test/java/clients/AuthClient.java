@@ -26,7 +26,7 @@ public class AuthClient {
                 .when()
                 .post("/auth")
                 .then()
-                .spec(ResponseSpecs.OK_JSON)
+                .spec(ResponseSpecs.OK_TOKEN_JSON)
                 .extract()
                 .jsonPath()
                 .getString("token");

@@ -12,7 +12,8 @@ public class BookingClient {
 
     /**
      * Создаёт бронирование: POST /booking.
-     * Общие проверки статуса/контента (200 + JSON) выполняются здесь через ResponseSpecs.OK_JSON,
+     * Общие проверки статуса/контента/схемы (200 + JSON + created-booking.schema.json)
+     * выполняются здесь через ResponseSpecs.OK_CREATED_BOOKING_JSON,
      * ответ возвращается тесту для точечных проверок и извлечения данных:
      * bookingid — .extract().jsonPath().getInt("bookingid"),
      * созданная бронь целиком — .extract().jsonPath().getObject("booking", BookDTO.class).
@@ -26,7 +27,7 @@ public class BookingClient {
                 .when()
                 .post("/booking")
                 .then()
-                .spec(ResponseSpecs.OK_JSON)
+                .spec(ResponseSpecs.OK_CREATED_BOOKING_JSON)
                 .log().body();
     }
 
@@ -34,7 +35,7 @@ public class BookingClient {
      * Возвращает бронирование по id: GET /booking/{id}.
      * Тело ответа — объект брони без обёртки bookingid/booking,
      * поэтому в тесте он читается целиком: .extract().as(BookDTO.class).
-     * Общие проверки (200 + JSON) — здесь через ResponseSpecs.OK_JSON.
+     * Общие проверки (200 + JSON + booking.schema.json) — здесь через ResponseSpecs.OK_BOOKING_JSON.
      */
     public ValidatableResponse getBooking(int bookingId) {
         System.out.println("\nPOSITIVE GET\n");
@@ -44,7 +45,7 @@ public class BookingClient {
                 .when()
                 .get("/booking/{id}", bookingId)
                 .then()
-                .spec(ResponseSpecs.OK_JSON)
+                .spec(ResponseSpecs.OK_BOOKING_JSON)
                 .log().body();
     }
 
@@ -64,7 +65,7 @@ public class BookingClient {
                 .when()
                 .put("/booking/{id}", bookingId)
                 .then()
-                .spec(ResponseSpecs.OK_JSON)
+                .spec(ResponseSpecs.OK_BOOKING_JSON)
                 .log().body();
     }
 
@@ -83,7 +84,7 @@ public class BookingClient {
                 .when()
                 .patch("/booking/{id}", bookingId)
                 .then()
-                .spec(ResponseSpecs.OK_JSON)
+                .spec(ResponseSpecs.OK_BOOKING_JSON)
                 .log().body();
     }
 
