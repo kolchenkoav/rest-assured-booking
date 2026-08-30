@@ -21,4 +21,13 @@ public class ResponseSpecs {
     public static final ResponseSpecification CREATED = new ResponseSpecBuilder()
             .expectStatusCode(201)
             .build();
+
+    /**
+     * 404: GET /booking/{id} несуществующей (в т.ч. удалённой) брони.
+     * В doc/Restful-booker-API.md код не документирован — зафиксирован живым поведением API
+     * (тело "Not Found", Content-Type не JSON — контент не проверяем).
+     */
+    public static final ResponseSpecification NOT_FOUND = new ResponseSpecBuilder()
+            .expectStatusCode(404)
+            .build();
 }

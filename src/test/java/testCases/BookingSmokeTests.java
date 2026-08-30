@@ -74,6 +74,12 @@ public class BookingSmokeTests extends BaseTest {
         Assert.assertEquals(persistedAfterPatch, expectedAfterPatch,
                 "GET после PATCH должен вернуть частично обновлённые данные");
 
-        // --- Далее: DELETE по bookingId ---
+        // --- DELETE: удаляем бронирование ---
+        bookingClient.deleteBooking(bookingId, authToken);
+
+        // --- контрольный GET: брони больше нет ---
+        bookingClient.getDeletedBooking(bookingId);
+
+        // --- lifecycle POST → GET → PUT → PATCH → DELETE завершён ---
     }
 }

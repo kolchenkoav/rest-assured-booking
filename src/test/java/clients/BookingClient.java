@@ -86,4 +86,39 @@ public class BookingClient {
                 .spec(ResponseSpecs.OK_JSON)
                 .log().body();
     }
+
+    /**
+     * Удаляет бронирование: DELETE /booking/{id}.
+     * Авторизация — токен параметром, уходит как Cookie token=<value> через authSpec.
+     * Успех — 201 (не 200!) с текстовым телом "Created": поэтому спека CREATED
+     * не проверяет Content-Type.
+     */
+    public ValidatableResponse deleteBooking(int bookingId, String token) {
+        System.out.println("\nPOSITIVE DELETE\n");
+        return given()
+                .spec(RequestSpecs.authSpec(token))
+                .log().uri()
+                .when()
+                .delete("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.CREATED)
+                .log().body();
+    }
+
+    /**
+     * Контрольный GET удалённой брони: GET /booking/{id} после DELETE — ожидаем 404.
+     * Отдельный метод вместо getBooking(): тот применяет OK_JSON (200 + JSON)
+     * и падает на статусе 404 раньше, чем тест что-либо проверит.
+     */
+    public ValidatableResponse getDeletedBooking(int bookingId) {
+        System.out.println("\nNEGATIVE GET after DELETE\n");
+        return given()
+                .spec(RequestSpecs.BASE_SPEC)
+                .log().uri()
+                .when()
+                .get("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.NOT_FOUND)
+                .log().body();
+    }
 }
