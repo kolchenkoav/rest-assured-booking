@@ -10,11 +10,15 @@ public class RequestSpecs {
     /**
      * Базовая спецификация запроса: baseUri + JSON (Content-Type, Accept).
      * Применяется ко всем эндпоинтам, включая POST /auth.
+     *
+     * Accept задаётся строкой "application/json", а НЕ ContentType.JSON:
+     * ContentType.JSON разворачивается в "application/json, application/javascript,
+     * text/javascript, text/json", и анти-бот restful-booker отвечает 418 I'm a Teapot.
      */
     public static final RequestSpecification BASE_SPEC = new RequestSpecBuilder()
             .setBaseUri(BookingConfig.BASE_URI)
             .setContentType(ContentType.JSON)
-            .setAccept(ContentType.JSON)
+            .setAccept("application/json")
             .build();
 
     /**
