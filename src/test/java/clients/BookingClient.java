@@ -1,6 +1,7 @@
 package clients;
 
 import dto.BookDTO;
+import dto.PatchBookingDTO;
 import io.restassured.response.ValidatableResponse;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
@@ -62,6 +63,25 @@ public class BookingClient {
                 .body(bookDTO)
                 .when()
                 .put("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.OK_JSON)
+                .log().body();
+    }
+
+    /**
+     * Частично обновляет бронирование: PATCH /booking/{id}.
+     * Payload — PatchBookingDTO (по контракту доки — firstname и lastname),
+     * авторизация — токен параметром, уходит как Cookie token=<value> через authSpec.
+     * Ответ: 200 + JSON, полная бронь после мержа патча — .extract().as(BookDTO.class).
+     */
+    public ValidatableResponse partialUpdateBooking(int bookingId, PatchBookingDTO patchDTO, String token) {
+        System.out.println("\nPOSITIVE PATCH\n");
+        return given()
+                .spec(RequestSpecs.authSpec(token))
+                .log().uri()
+                .body(patchDTO)
+                .when()
+                .patch("/booking/{id}", bookingId)
                 .then()
                 .spec(ResponseSpecs.OK_JSON)
                 .log().body();

@@ -2,6 +2,7 @@ package utils;
 
 import dto.BookDTO;
 import dto.BookingDatesDTO;
+import dto.PatchBookingDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -78,6 +79,18 @@ public class TestDataGeneration {
                         .checkout("2026-11-15")
                         .build())
                 .additionalneeds("Dinner")
+                .build();
+    }
+
+    /**
+     * Частичное обновление для шага PATCH в smoke-тесте:
+     * меняются только firstname и lastname (контракт PatchBookingDTO),
+     * значения отличаются и от fullBooking(), и от updatedBooking().
+     */
+    public static PatchBookingDTO partialUpdateBooking() {
+        return PatchBookingDTO.builder()
+                .firstname("Maria")
+                .lastname("Volkova")
                 .build();
     }
 }
