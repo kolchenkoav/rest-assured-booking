@@ -46,4 +46,24 @@ public class BookingClient {
                 .spec(ResponseSpecs.OK_JSON)
                 .log().body();
     }
+
+    /**
+     * Обновляет бронирование целиком: PUT /booking/{id}.
+     * Требует ПОЛНЫЙ payload (все поля — частичное обновление это PATCH)
+     * и авторизацию: токен передаётся параметром и уходит как Cookie token=<value>
+     * через RequestSpecs.authSpec. Тело ответа — обновлённая бронь без обёртки,
+     * читается в тесте целиком: .extract().as(BookDTO.class).
+     */
+    public ValidatableResponse updateBooking(int bookingId, BookDTO bookDTO, String token) {
+        System.out.println("\nPOSITIVE PUT\n");
+        return given()
+                .spec(RequestSpecs.authSpec(token))
+                .log().uri()
+                .body(bookDTO)
+                .when()
+                .put("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.OK_JSON)
+                .log().body();
+    }
 }

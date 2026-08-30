@@ -62,4 +62,22 @@ public class TestDataGeneration {
                 .additionalneeds("Lunch")
                 .build();
     }
+
+    /**
+     * Полностью обновлённое бронирование — payload для шага PUT в smoke-тесте:
+     * все поля отличаются от fullBooking(), чтобы обновление было заметным.
+     */
+    public static BookDTO updatedBooking() {
+        return BookDTO.builder()
+                .firstname("Pavel")
+                .lastname("Sidorov")
+                .totalprice(400)
+                .depositpaid(false)
+                .bookingdates(BookingDatesDTO.builder()
+                        .checkin("2026-11-05")
+                        .checkout("2026-11-15")
+                        .build())
+                .additionalneeds("Dinner")
+                .build();
+    }
 }

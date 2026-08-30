@@ -34,6 +34,21 @@ public class BookingSmokeTests extends BaseTest {
         Assert.assertEquals(fetchedBooking, expectedBooking,
                 "GET /booking/{id} должен вернуть созданную бронь без изменений");
 
-        // --- Далее: PUT / DELETE по bookingId ---
+        // --- PUT: обновляем бронирование ---
+        BookDTO updatedBooking = TestDataGeneration.updatedBooking();
+
+        ValidatableResponse putResponse = bookingClient.updateBooking(bookingId, updatedBooking, authToken);
+        BookDTO actualUpdated = putResponse.extract().as(BookDTO.class);
+
+        Assert.assertEquals(actualUpdated, updatedBooking,
+                "PUT должен вернуть обновлённую бронь");
+
+        // --- контрольный GET: изменения сохранились в API ---
+        BookDTO afterUpdate = bookingClient.getBooking(bookingId).extract().as(BookDTO.class);
+
+        Assert.assertEquals(afterUpdate, updatedBooking,
+                "GET после PUT должен вернуть обновлённые данные");
+
+        // --- Далее: DELETE по bookingId ---
     }
 }
