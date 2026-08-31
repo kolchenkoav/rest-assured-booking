@@ -8,6 +8,7 @@
                     <include name="smokeTestFullLifeCycle"/>
                 </methods>
             </class>
+            <class name="testCases.GetSmokeTests"/>
         </classes>
     </test>
 </suite>

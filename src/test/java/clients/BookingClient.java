@@ -122,4 +122,23 @@ public class BookingClient {
                 .spec(ResponseSpecs.NOT_FOUND)
                 .log().body();
     }
+
+    /**
+     * Негативный GET: несуществующий id (0, -1, ...) — ожидаем 404 "Not Found".
+     * Спека NOT_FOUND проверяет только статус: тело ответа не JSON
+     * ("Not Found"), поэтому Content-Type и схему не проверяем.
+     * Ожидание «успеха» здесь было бы ошибкой: OK_BOOKING_JSON требует 200 + JSON
+     * и падает JsonParseException на тексте "Not Found".
+     */
+    public ValidatableResponse getNEGATIVEBooking(int bookingId) {
+        System.out.println("\nNEGATIVE GET\n");
+        return given()
+                .spec(RequestSpecs.BASE_SPEC)
+                .log().uri()
+                .when()
+                .get("/booking/{id}", bookingId)
+                .then()
+                .spec(ResponseSpecs.NOT_FOUND)
+                .log().body();
+    }
 }
